@@ -12,7 +12,7 @@ const tiktacArray = new Array(9).fill("")
 const App = () => {
     let [isCross, setIsCross] = useState(true)
     let [winMessage, setWinMessage] = useState("")
-
+  
     const playAgain=()=>{
         setIsCross(true)
         setWinMessage("")
@@ -36,6 +36,7 @@ const App = () => {
         else if(tiktacArray[1]== tiktacArray[4] && tiktacArray[1]==tiktacArray[7] && tiktacArray[1]){
             setWinMessage(tiktacArray[1]+" has won")
         }
+       
         else if(tiktacArray[2]== tiktacArray[5] && tiktacArray[2]==tiktacArray[8] && tiktacArray[2]){
             setWinMessage(tiktacArray[2]+" has won")
         }
@@ -52,37 +53,53 @@ const App = () => {
         if(winMessage){
             return toast("Game has already got over", {type: "success"})
         }
+        
         if(tiktacArray[index] ==""){
             tiktacArray[index] = isCross ? "cross" : "circle"
             setIsCross(!isCross)
+        }else if(winMessage=='' && tiktacArray.length==9){
+             return toast('Game draw',{type:'info'})
         }
         else{
             return toast("Open your eyes dude where are you tapping", {type: "error"})
         }
         findWinner()
     }
-
+   
     return(
          <Container className="p-5"> 
+         <button  onClick={()=>setIsCross(true)}>Cross First</button>
+         <button  onClick={()=>setIsCross(false)}>Circle First</button>
            <ToastContainer position="bottom-center" > </ToastContainer>
             <Row> 
-
+            
                <Col md={6} className="offset-md-3"> 
                   {
+                    
                     winMessage? (
                         <div>
-                        <h1 className="text-center"> 
-                        {winMessage}
+                        <h1 className="text-center" style={{color:'white'}}> 
+                       {winMessage}
                         </h1>
-                        <Button onClick={playAgain}> Play Again</Button>
+                        <Button onClick={playAgain} style={{margin:'1rem 12rem'}}> Play Again</Button>
+                        
+                       
                         </div>
                     ) : (
-                        <h1>
+                       
+                        <div>
+                       
+                        <h1 style={{color:'whitesmoke'}}>
                             {isCross? "Cross's Turn": "Circle's Turn"}
                         </h1>
+                      
+                        </div>
+                      
                     )
+                    
+        }
 
-                  }
+                  
                    
                  <div className="grid"> 
                        {tiktacArray.map((value,index)=>(
@@ -91,7 +108,10 @@ const App = () => {
                                    <Icon choice={tiktacArray[index]}/>
                                </CardBody>
                            </Card>
-                       ))}
+                       ))
+                      
+                       }
+                      
 
                   </div>
 
@@ -106,4 +126,5 @@ const App = () => {
 }
 
 export default App
+
 
